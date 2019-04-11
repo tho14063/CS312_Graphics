@@ -2,6 +2,7 @@ uniform mat4 u_MVP;
 uniform mat4 u_Projection;
 uniform mat4 u_ModelView;
 uniform bool u_isBillboard;
+uniform bool u_Cylindrical;
 uniform mat3 u_UVMat;
 attribute vec3 a_Position;
 attribute vec2 a_UV;
@@ -19,20 +20,38 @@ void main()
     mat4 billboard = u_ModelView;
     if (false)
     {
-	    billboard[0][0] = 1.0;
+        billboard[0][0] = 1.0;
 	    billboard[0][1] = 0.0;
 	    billboard[0][2] = 0.0;
 
-        billboard[1][0] = 0.0;
-	    billboard[1][1] = 1.0;
-	    billboard[1][2] = 0.0;
+        if (u_Cylindrical)
+        {
+            billboard[1][0] = 0.0;
+	        billboard[1][1] = 1.0;
+    	    billboard[1][2] = 0.0;
+        }
 
-	    billboard[2][0] = 0.0;
+        billboard[2][0] = 0.0;
 	    billboard[2][1] = 0.0;
 	    billboard[2][2] = 1.0;
     }
     if (u_isBillboard)
     {
+        billboard[0][0] = 1.0;
+	    billboard[0][1] = 0.0;
+	    billboard[0][2] = 0.0;
+
+        if (u_Cylindrical)
+        {
+            billboard[1][0] = 0.0;
+	        billboard[1][1] = 1.0;
+    	    billboard[1][2] = 0.0;
+        }
+
+        billboard[2][0] = 0.0;
+	    billboard[2][1] = 0.0;
+	    billboard[2][2] = 1.0;
+        
         v_Position = u_Projection * billboard * vec4(a_Position, 1.0);
     }
     else
